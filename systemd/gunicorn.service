@@ -1,0 +1,16 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=www
+Group=www-data
+WorkingDirectory=PROJECT_PATH/src
+ExecStart=PROJECT_PATH/env/bin/gunicorn --workers 3\
+    --bind unix:PROJECT_PATH/gunicorn/gunicorn.sock PROJECT_NAME.wsgi:application \
+    --access-logfile PROJECT_PATH/gunicorn/access.log \
+    --error-logfile PROJECT_PATH/gunicorn/error.log
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
